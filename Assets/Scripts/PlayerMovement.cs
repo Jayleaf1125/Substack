@@ -23,13 +23,12 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Run();
     }
 
     void FixedUpdate()
     {
         Movement();
-        Run();
     }
 
     void Movement()
