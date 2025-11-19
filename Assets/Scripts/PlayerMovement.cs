@@ -4,11 +4,23 @@ using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movement Paramters")]
+    [Header("Movement Parameters")]
     [SerializeField] private float _movementSpeed;
 
-    [Header("Run Paramters")]
-    [SerializeField] private float _runMultiplier;
+    [Header("Run Parameters")]
+    [SerializeField] private float _sprintSpeedMultiplier;
+
+    [Header("Jump Parameters")]
+    [SerializeField] private float _jumpForce;
+    [SerializeField] private LayerMask _groundLayer;
+    [SerializeField] private float _jumpRayDistance;
+    private bool _isGrounded = true;
+
+    [Header("Gizmos Parameters")]
+    [SerializeField] private bool _isGizmosOn;
+
+
+
 
     private Rigidbody _rb;
     private Vector3 _vectorMovement;
@@ -23,7 +35,9 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CheckIfPlayerIsGrounded();
         Run();
+        Jump();
     }
 
     void FixedUpdate()
@@ -31,7 +45,22 @@ public class PlayerMovement : MonoBehaviour
         Movement();
     }
 
-    void Movement()
+    void CheckIfPlayerIsGrounded()
+    {
+        _isGrounded = Physics.Raycast(transform.position, Vector3.down, _jumpRayDistance, _groundLayer);
+    }
+
+
+    void Jump()
+    {
+        if (Input.GetButtonDown("Jump") && _isGrounded)
+        {
+            _rb.AddForce(new Vector3(0, _jumpForce, 0), ForceMode.Impulse);
+            _isGrounded = false;
+        }
+    }
+
+    private void Movement()
     {
         _vectorMovement.x = Input.GetAxisRaw("Horizontal");
         _vectorMovement.z = Input.GetAxisRaw("Vertical");
@@ -43,12 +72,20 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            _movementSpeed *= _runMultiplier;
+            _movementSpeed *= _sprintSpeedMultiplier;
         }
 
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            _movementSpeed /= _runMultiplier;
+            _movementSpeed /= _sprintSpeedMultiplier;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (_isGizmosOn)
+        {
+
         }
     }
 }
