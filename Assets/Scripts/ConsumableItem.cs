@@ -16,13 +16,15 @@ public class ConsumableItem : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.CompareTag("Player"))
-        {
-            collision.gameObject.GetComponent<PlayerInventory>().AddItem(consumableItem);
-            Debug.Log($"{consumableItem.itemName} has been added to inventory");
-            Destroy(this.gameObject);
-        }
-    }
+    public ConsumableItemData GetConsumableItemInfo() => consumableItem;
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if(collision.gameObject.CompareTag("Player"))
+    //    {
+    //        collision.gameObject.GetComponent<PlayerInventory>().AddItem(consumableItem);
+    //        Debug.Log($"{consumableItem.itemName} has been added to inventory");
+    //        Destroy(this.gameObject);
+    //    }
+    //}
 }
