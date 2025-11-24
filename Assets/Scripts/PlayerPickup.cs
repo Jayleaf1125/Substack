@@ -14,59 +14,60 @@ public class PlayerPickup : MonoBehaviour
     [SerializeField] private Material _itemSelectMat;
     private Material _originalMat;
 
+    private UIManager _uiManager;
+    private bool _isItemInRange = false;
+    private PlayerInventory _playerInventory;
+
+
+
 
     void Start()
     {
-        
+        _uiManager = GameObject.Find("UI Manager").GetComponent<UIManager>();
+        _playerInventory = GetComponent<PlayerInventory>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (IsItemInRange())
-        {
-            Debug.Log("Item Detected");
-            Collider[] itemColliders = Physics.OverlapSphere(transform.position, _itemPickupRange*10, _itemLayer);
+        CheckItemInRange();
 
-            if (itemColliders != null)
-            {
-                Renderer _rend = itemColliders[0].gameObject.GetComponent<Renderer>();
-                _originalMat = _rend.material;
-                _rend.material = _itemSelectMat;
-
-                ConsumableItemData item = itemColliders[0].gameObject.GetComponent<ConsumableItem>().GetConsumableItemInfo();
-                
-                if(Input.GetKeyDown(KeyCode.E))
-                {
-                    gameObject.GetComponent<PlayerInventory>().AddItem(item);
-                    Debug.Log($"{item.itemName} has been added to inventory");
-                    Destroy(itemColliders[0].gameObject);
-                }
-
-
-
-                Debug.Log(item.itemName);
-            }
-        }
-
-
-}
-
-    bool IsItemInRange() => Physics.CheckSphere(transform.position, _itemPickupRange, _itemLayer);
-
-    void ItemCheck()
-    {
-        RaycastHit ll;
-
-        if (Physics.SphereCast(transform.position, 100f, transform.position, out ll, 100f, _itemLayer))
-        {
-            Debug.Log("Item Check Hiot");
-            //ConsumableItemData item = ll.collider.GetComponent<ConsumableItem>().GetConsumableItem();
-            //Debug.Log(item.itemName);
-        }
-            
-        
+        _uiManager.IsPickupTextActive(_isItemInRange);
+        ConsumableItemPickup();
     }
+
+    void ConsumableItemPickup()
+    {
+        if (!_isItemInRange) return;
+
+        Collider[] itemColliders = Physics.OverlapSphere(transform.position, _itemPickupRange * 10, _itemLayer);
+
+        if (itemColliders != null)
+        {
+            GameObject itemObj = itemColliders[0].gameObject;
+            ConsumableItem item = itemObj.GetComponent<ConsumableItem>();
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                ConsumableItemData itemData = item.GetConsumableItemInfo();
+                _playerInventory.AddItem(itemData);
+                _uiManager.DisplayPickupSuccess(itemData.itemName);
+                Destroy(itemObj);
+            }
+
+            //if (itemObj.TryGetComponent<ConsumableItemData>(out ConsumableItemData item))
+            //{
+            //    if (Input.GetKeyDown(KeyCode.R))
+            //    {
+            //        _playerInventory.AddItem(item);
+            //        Debug.Log($"{item.itemName} has been added to inventory");
+            //        Destroy(itemObj);
+            //    }
+            //}
+        }
+    }
+
+    void CheckItemInRange() => _isItemInRange = Physics.CheckSphere(transform.position, _itemPickupRange, _itemLayer);
 
     private void OnDrawGizmos()
     {
