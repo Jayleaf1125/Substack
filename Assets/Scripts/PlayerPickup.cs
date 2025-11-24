@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerPickup : MonoBehaviour
@@ -10,15 +9,9 @@ public class PlayerPickup : MonoBehaviour
     [Header("Gizmos Parameters")]
     [SerializeField] private Color _gizmoItemPickupRangeColor = Color.blue;
 
-    [Header("Testing Parameters")]
-    [SerializeField] private Material _itemSelectMat;
-    private Material _originalMat;
-
     private UIManager _uiManager;
-    private bool _isItemInRange = false;
     private PlayerInventory _playerInventory;
-
-
+    private bool _isConsumeableItemInRange = false;
 
 
     void Start()
@@ -32,15 +25,15 @@ public class PlayerPickup : MonoBehaviour
     {
         CheckItemInRange();
 
-        _uiManager.IsPickupTextActive(_isItemInRange);
+        _uiManager.IsPickupTextActive(_isConsumeableItemInRange);
         ConsumableItemPickup();
     }
 
     void ConsumableItemPickup()
     {
-        if (!_isItemInRange) return;
+        if (!_isConsumeableItemInRange) return;
 
-        Collider[] itemColliders = Physics.OverlapSphere(transform.position, _itemPickupRange * 10, _itemLayer);
+        Collider[] itemColliders = Physics.OverlapSphere(transform.position, _itemPickupRange, _itemLayer);
 
         if (itemColliders != null)
         {
@@ -54,20 +47,10 @@ public class PlayerPickup : MonoBehaviour
                 _uiManager.DisplayPickupSuccess(itemData.itemName);
                 Destroy(itemObj);
             }
-
-            //if (itemObj.TryGetComponent<ConsumableItemData>(out ConsumableItemData item))
-            //{
-            //    if (Input.GetKeyDown(KeyCode.R))
-            //    {
-            //        _playerInventory.AddItem(item);
-            //        Debug.Log($"{item.itemName} has been added to inventory");
-            //        Destroy(itemObj);
-            //    }
-            //}
         }
     }
 
-    void CheckItemInRange() => _isItemInRange = Physics.CheckSphere(transform.position, _itemPickupRange, _itemLayer);
+    void CheckItemInRange() => _isConsumeableItemInRange = Physics.CheckSphere(transform.position, _itemPickupRange, _itemLayer);
 
     private void OnDrawGizmos()
     {

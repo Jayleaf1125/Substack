@@ -4,9 +4,10 @@ using System.Collections;
 
 public class PlayerInventory : MonoBehaviour
 {
-    [SerializeField] private Dictionary<string, ItemData> _inventory = new();
+    //[SerializeField] private Dictionary<string, ItemData> _inventory = new();
+    [SerializeField] private List<ItemData> _inventory = new();
     [SerializeField] private float _inventoryMaxSize;
-    private float _currentInventorySize = 0;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,6 +22,8 @@ public class PlayerInventory : MonoBehaviour
 
     public void AddItem(ItemData newItem)
     {
-        _inventory.Add(newItem.itemName, newItem);
+        if (_inventory.Count == _inventoryMaxSize) return;
+
+        _inventory.Add(newItem);
     }
 }

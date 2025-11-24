@@ -17,4 +17,4 @@ MonoBehaviour:
   itemDescription: Restores health
   isStackable: 1
   maxSize: 2
-  healthRestoreAmount: 20
+  value: 10

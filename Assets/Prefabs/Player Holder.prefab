@@ -218,6 +218,8 @@ GameObject:
   - component: {fileID: 2895450602909149382}
   - component: {fileID: 3741096135864909672}
   - component: {fileID: 4351653099235658866}
+  - component: {fileID: 7748895089474618202}
+  - component: {fileID: 4367485745968749661}
   m_Layer: 0
   m_Name: Body
   m_TagString: Player
@@ -378,7 +380,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f052ea725a2e8554c94cf1ce6532bbab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inventoryMaxSize: 0
+  _inventory: []
+  _inventoryMaxSize: 10
+--- !u!114 &7748895089474618202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5297305480426807481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9db18aa4d7c94fa4ba4da285fb212db4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _firstPersonCameraObj: {fileID: 6084726089412295017}
+  _firstPersonCinemachineCamera: {fileID: 8257601208353175686}
+--- !u!114 &4367485745968749661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5297305480426807481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e5616ea4730ba8488bf6545e79f3eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _itemPickupRange: 3
+  _gizmoItemPickupRangeColor: {r: 0, g: 0, b: 1, a: 1}
+  _itemSelectMat: {fileID: 2100000, guid: 1f50f0c493e995e458649653b3479b7e, type: 2}
 --- !u!1 &5383852118811180937
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,6 +599,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NoiseProfile: {fileID: 11400000, guid: 46965f9cbaf525742a6da4c2172a99cd, type: 2}
   PivotOffset: {x: 0, y: 0, z: 0}
-  AmplitudeGain: 0.5
-  FrequencyGain: 0.5
+  AmplitudeGain: 1
+  FrequencyGain: 1
   m_NoiseOffsets: {x: 0, y: 0, z: 0}
