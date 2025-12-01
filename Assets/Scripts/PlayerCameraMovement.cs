@@ -14,11 +14,15 @@ public class PlayerCameraMovement : MonoBehaviour
         
     }
 
+    public float GetPanAxisValue() => _panTiltCamera.PanAxis.Value;
+    public float GetTiltAxisValue() => _panTiltCamera.TiltAxis.Value;
+    public Transform GetFPCamera() => _firstPersonCameraObj;
+
     // Update is called once per frame
     void FixedUpdate()
     {
         //Debug.Log(_panTiltCamera.PanAxis)
-        RotateBody(_panTiltCamera.PanAxis.Value);
+        //RotateBody(_panTiltCamera.PanAxis.Value);
     }
 
     void RotateBody(float yAngle)
