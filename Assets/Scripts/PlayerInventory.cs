@@ -20,10 +20,15 @@ public class PlayerInventory : MonoBehaviour
         
     }
 
-    public void AddItem(ItemData newItem)
+    public bool CanAddItem(ItemData newItem)
     {
-        if (_inventory.Count == _inventoryMaxSize) return;
+        if (_inventory.Count >= _inventoryMaxSize)
+        {
+            Debug.LogWarning("Inventory is maxed");
+            return false;
+        }
 
         _inventory.Add(newItem);
+        return true;
     }
 }

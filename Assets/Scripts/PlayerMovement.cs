@@ -19,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Gizmos Parameters")]
     [SerializeField] private bool _isGizmosOn;
 
+    PlayerCameraMovement _cm;
+
 
 
 
@@ -29,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _cm = GetComponent<PlayerCameraMovement>();
         _rb.freezeRotation = true;
     }
 
