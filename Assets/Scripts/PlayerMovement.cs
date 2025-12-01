@@ -19,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Gizmos Parameters")]
     [SerializeField] private bool _isGizmosOn;
 
+    PlayerCameraMovement _cm;
+
 
 
 
@@ -29,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _cm = GetComponent<PlayerCameraMovement>();
         _rb.freezeRotation = true;
     }
 
@@ -38,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
         CheckIfPlayerIsGrounded();
         Run();
         Jump();
+        Debug.Log(_cm.GetPanAxisValue());
     }
 
     void FixedUpdate()
@@ -62,8 +66,21 @@ public class PlayerMovement : MonoBehaviour
 
     private void Movement()
     {
-        _vectorMovement.x = Input.GetAxisRaw("Horizontal");
-        _vectorMovement.z = Input.GetAxisRaw("Vertical");
+        Vector3 camForward = _cm.GetFPCamera().forward;
+        Vector3 camRight = _cm.GetFPCamera().right;
+        camForward.y = 0;
+        //camRight.y = 0; 
+        camForward.Normalize();
+
+        //float xOffset = _cm.GetPanAxisValue() > 0 ? _cm.GetPanAxisValue() : 1;
+        //float yOffset = _cm.GetTiltAxisValue() > 0 ? _cm.GetTiltAxisValue() : 1;
+
+        float horizontalInput = Input.GetAxisRaw("Horizontal");
+        float verticalInput = Input.GetAxisRaw("Vertical");
+
+        _vectorMovement = camForward * verticalInput + camRight * horizontalInput;
+        _vectorMovement.Normalize();
+
 
         _rb.MovePosition(_rb.position + _vectorMovement * _movementSpeed * Time.fixedDeltaTime);
     }
