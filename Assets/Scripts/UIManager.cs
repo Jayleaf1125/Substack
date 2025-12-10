@@ -5,13 +5,17 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text pickupText;
-    [SerializeField] private TMP_Text pickupSuccesText;
+    [SerializeField] private TMP_Text pickupSuccessText;
+    [SerializeField] private TMP_Text doorSuccessText;
+    [SerializeField] private TMP_Text doorFailedText;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        pickupSuccesText.gameObject.SetActive(false);
+        pickupSuccessText.gameObject.SetActive(false);
+        doorSuccessText.gameObject.SetActive(false);
+        doorFailedText.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -29,11 +33,33 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator PickupSuccessVanishText(string itemName)
     {
-        GameObject text = pickupSuccesText.gameObject;
+        GameObject text = pickupSuccessText.gameObject;
 
-        pickupSuccesText.text = $"{itemName} has been added to inventory";
+        pickupSuccessText.text = $"{itemName} has been added to inventory";
         text.SetActive(true);
         
+        yield return new WaitForSeconds(3f);
+        text.SetActive(false);
+    }
+
+    public IEnumerator DoorSuccessVanishText()
+    {
+        GameObject text = doorSuccessText.gameObject;
+
+        pickupSuccessText.text = $"Door Unlocked";
+        text.SetActive(true);
+
+        yield return new WaitForSeconds(3f);
+        text.SetActive(false);
+    }
+
+    public IEnumerator DoorFailVanishText(string itemName)
+    {
+        GameObject text = doorFailedText.gameObject;
+
+        pickupSuccessText.text = $"Requires {itemName}";
+        text.SetActive(true);
+
         yield return new WaitForSeconds(3f);
         text.SetActive(false);
     }
