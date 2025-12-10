@@ -41,7 +41,6 @@ public class PlayerMovement : MonoBehaviour
         CheckIfPlayerIsGrounded();
         Run();
         Jump();
-        Debug.Log(_cm.GetPanAxisValue());
     }
 
     void FixedUpdate()

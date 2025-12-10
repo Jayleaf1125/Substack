@@ -4,9 +4,9 @@ using System.Collections;
 
 public class PlayerInventory : MonoBehaviour
 {
-    //[SerializeField] private Dictionary<string, ItemData> _inventory = new();
     [SerializeField] private List<ItemData> _inventory = new();
     [SerializeField] private float _inventoryMaxSize;
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,5 +30,15 @@ public class PlayerInventory : MonoBehaviour
 
         _inventory.Add(newItem);
         return true;
+    }
+
+    public bool HasKey(KeyItemData data)
+    {
+        foreach (ItemData item in _inventory)
+        {
+            if (item.itemName == data.itemName) return true;
+        }
+
+        return false;
     }
 }
