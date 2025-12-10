@@ -22,6 +22,7 @@ public class DoorLockSystem : MonoBehaviour
     Renderer _rend;
     GameObject _lockCanvas;
     GameObject _doorObj;
+    UIManager _uiManager;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -30,6 +31,7 @@ public class DoorLockSystem : MonoBehaviour
         _rend = GetComponent<Renderer>();
         _lockCanvas = GameObject.Find("Door Lock Canvas");
         _doorObj = transform.parent.gameObject;
+        _uiManager = GameObject.Find("UI Manager").GetComponent<UIManager>();
     }
 
 
@@ -67,6 +69,7 @@ public class DoorLockSystem : MonoBehaviour
 
     IEnumerator FailedCheck()
     {
+        StartCoroutine(_uiManager.DoorFailVanishText(_keyData.itemName));
         _rend.material = _lockDeclineMat;
         yield return new WaitForSeconds(0.5f);
         _rend.material = _standbyMat;
@@ -75,7 +78,8 @@ public class DoorLockSystem : MonoBehaviour
     IEnumerator SuccessfulCheck()
     {
         _rend.material = _lockAcceptMat;
-        yield return new WaitForSeconds(1.5f);
+        StartCoroutine(_uiManager.DoorSuccessVanishText());
+        yield return new WaitForSeconds(1f);
         Destroy(_doorObj);
     }
 
