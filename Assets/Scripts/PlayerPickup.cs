@@ -18,6 +18,8 @@ public class PlayerPickup : MonoBehaviour
     {
         _uiManager = GameObject.Find("UI Manager").GetComponent<UIManager>();
         _playerInventory = GetComponent<PlayerInventory>();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame

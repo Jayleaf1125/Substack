@@ -15,6 +15,7 @@ public class DoorLockSystem : MonoBehaviour
     [SerializeField] bool _isLockInRange;
 
     [SerializeField] KeyItemData _keyData;
+    bool _isDoorActive = true;
 
 
     //bool isCheck
@@ -39,7 +40,7 @@ public class DoorLockSystem : MonoBehaviour
     void Update()
     {
         CheckLockInRange();
-        _lockCanvas.SetActive(_isLockInRange || false);
+        //if (_isDoorActive) _lockCanvas.SetActive(_isLockInRange || false);
         HandleLockActivation();
     }
 
@@ -80,6 +81,7 @@ public class DoorLockSystem : MonoBehaviour
         _rend.material = _lockAcceptMat;
         StartCoroutine(_uiManager.DoorSuccessVanishText());
         yield return new WaitForSeconds(1f);
+        _isDoorActive = false;
         Destroy(_doorObj);
     }
 
