@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class StartScreen : MonoBehaviour
 {
-   public void PlayGame()
+   public void PlayGame(int sceneNumber)
    {
-      SceneManager.LoadSceneAsync(2);
+      SceneManager.LoadSceneAsync(sceneNumber);
    }
 
    public void QuitGame()
